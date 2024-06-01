@@ -1,0 +1,11 @@
+{
+  "name": "com.braty.bratyecs",
+  "version": "1.0.0",
+  "displayName": "BratyECS",
+  "description": "Simple ECS-like system for MonoBehaviours.",
+  "unity": "2022.1",
+  "author": {
+    "name": "Bora Ataysen",
+    "url": "https://github.com/boraty14"
+  }
+}
