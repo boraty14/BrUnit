@@ -4,9 +4,6 @@
   "displayName": "BratyECS",
   "description": "Simple ECS-like system for MonoBehaviours.",
   "unity": "2022.1",
-  "dependencies": {
-    "com.braty.bratyutils": "1.0.0"
-  },
   "author": {
     "name": "Bora Ataysen",
     "url": "https://github.com/boraty14"
