@@ -5,7 +5,7 @@ namespace BratyECS
 {
     public abstract class UnitFactory<T> : MonoBehaviour where T : Unit
     {
-        private List<T> _instances = new();
+        private List<T> _units = new();
         
         private void OnEnable()
         {
@@ -21,14 +21,14 @@ namespace BratyECS
             UnitFactoryManager<T>.Factory = null;
         }
         
-        internal IReadOnlyCollection<T> GetInstances() => _instances;
+        internal IReadOnlyCollection<T> GetUnits() => _units;
         
-        internal IEnumerable<(int index, T instance)> EnumerateInstances()
+        internal IEnumerable<(int index, T unit)> EnumerateUnits()
         {
             int index = 0;
-            foreach (var instance in _instances)
+            foreach (var unit in _units)
             {
-                yield return (index, instance);
+                yield return (index, unit);
                 index++;
             }
         }
@@ -36,31 +36,45 @@ namespace BratyECS
         internal T CreateUnit()
         {
             T unit = CreateUnitFromFactory();
-            _instances.Add(unit);
+            _units.Add(unit);
             return unit;
         }
 
         internal void DeleteUnit(T unit)
         {
-            _instances.Remove(unit);
+            _units.Remove(unit);
             DeleteUnitFromFactory(unit);
+        }
+
+        internal void DeleteIndices(List<int> indices)
+        {
+            indices.Sort();
+            indices.Reverse();
+            foreach (var index in indices)
+            {
+                if (index >= GetCount())
+                {
+                    continue;
+                }
+                DeleteUnit(_units[index]);
+            }
         }
         
         protected abstract T CreateUnitFromFactory();
         protected abstract void DeleteUnitFromFactory(T unit);
         
-        internal int GetCount() => _instances.Count;
+        internal int GetCount() => _units.Count;
         internal bool IsEmpty() => GetCount() == 0;
         
         internal T GetSingleton()
         {
-            int instanceCount = _instances.Count; 
-            if (instanceCount != 1)
+            int unitCount = _units.Count; 
+            if (unitCount != 1)
             {
-                Debug.LogError($"{typeof(T)} is not singleton, instance count {instanceCount}");
+                Debug.LogError($"{typeof(T)} is not singleton, unit count {unitCount}");
             }
 
-            return _instances[0];
+            return _units[0];
         }
     }
 }
