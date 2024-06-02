@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 namespace BratyECS
 {
-    public abstract class MonoUnitFactory<T> : MonoBehaviour where T : MonoUnit<T> 
+    public abstract class UnitPoolFactory<T> : UnitFactory<T> where T : Unit
     {
         [SerializeField] private T _prefab;
         private ObjectPool<T> _pool;
@@ -17,19 +17,19 @@ namespace BratyECS
             set => _pool = value;
         }
 
+        protected override T CreateUnitFromFactory()
+        {
+            return Pool.Get();
+        }
+
+        protected override void DeleteUnitFromFactory(T unit)
+        {
+            Pool.Release(unit);
+        }
+
         protected virtual void Awake()
         {
             InitPool(_prefab);
-        }
-
-        private void OnEnable()
-        {
-            MonoUnitFactoryManager<T>.Instance = this;
-        }
-
-        private void OnDisable()
-        {
-            MonoUnitFactoryManager<T>.Instance = null;
         }
 
         protected void InitPool(T prefab, int initial = 10, int max = 100, bool collectionChecks = false) {
@@ -45,15 +45,10 @@ namespace BratyECS
         }
 
         #region Overrides
-        protected virtual T CreateSetup() => Instantiate(_prefab);
-        protected virtual void GetSetup(T obj) => obj.gameObject.SetActive(true);
-        protected virtual void ReleaseSetup(T obj) => obj.gameObject.SetActive(false);
-        protected virtual void DestroySetup(T obj) => Destroy(obj);
-        #endregion
-
-        #region Getters
-        public T Get() => Pool.Get();
-        public void Release(T obj) => Pool.Release(obj);
+        protected virtual T CreateSetup() => Instantiate(_prefab, transform);
+        protected virtual void GetSetup(T unit) => unit.gameObject.SetActive(true);
+        protected virtual void ReleaseSetup(T unit) => unit.gameObject.SetActive(false);
+        protected virtual void DestroySetup(T unit) => Destroy(unit);
         #endregion
     }
 }
