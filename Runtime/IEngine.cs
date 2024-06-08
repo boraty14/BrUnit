@@ -2,7 +2,7 @@
 {
     public interface IEngine
     {
-        void Tick();
         bool IsTickable();
+        void Tick();
     }
 }

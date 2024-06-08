@@ -2,7 +2,7 @@
 
 namespace BratyECS
 {
-    public abstract class UnitCreateFactory<T> : UnitFactory<T> where T : Unit
+    public abstract class UnitInstantiateManager<T> : UnitManager<T> where T : Unit
     {
         [SerializeField] private T _prefab;
         

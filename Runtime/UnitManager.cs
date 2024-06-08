@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace BratyECS
 {
-    public abstract class UnitFactory<T> : MonoBehaviour where T : Unit
+    public abstract class UnitManager<T> : MonoBehaviour where T : Unit
     {
         private List<T> _units = new();
         
         private void OnEnable()
         {
-            if (UnitFactoryManager<T>.Factory != null)
+            if (Units<T>.Manager != null)
             {
                 Debug.LogError($"{typeof(T)} more than one factory");
             }
-            UnitFactoryManager<T>.Factory = this;
+            Units<T>.Manager = this;
         }
 
         private void OnDisable()
         {
-            UnitFactoryManager<T>.Factory = null;
+            Units<T>.Manager = null;
         }
         
         internal IReadOnlyCollection<T> GetUnits() => _units;

@@ -2,7 +2,7 @@
 
 namespace BratyECS
 {
-    public abstract class UnitSingletonFactory<T> : UnitFactory<T> where T : Unit
+    public abstract class UnitSingletonManager<T> : UnitManager<T> where T : Unit
     {
         [SerializeField] private T _prefab;
         [SerializeField] private bool _isLazy; 

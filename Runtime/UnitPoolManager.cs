@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 namespace BratyECS
 {
-    public abstract class UnitPoolFactory<T> : UnitFactory<T> where T : Unit
+    public abstract class UnitPoolManager<T> : UnitManager<T> where T : Unit
     {
         [SerializeField] private T _prefab;
         private ObjectPool<T> _pool;
