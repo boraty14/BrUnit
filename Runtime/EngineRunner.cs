@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BratyECS
@@ -9,17 +10,44 @@ namespace BratyECS
         private readonly List<IEngine> _updateEngines = new();
         private readonly List<IEngine> _lateUpdateEngines = new();
         private readonly List<IEngine> _fixedUpdateEngines = new();
-        
+
+        private Dictionary<Type, List<object>> _reactiveEngines = new();
+
         protected abstract void InstallEngines();
 
-        protected void AddStartEngine(IEngine engine) => _startEngines.Add(engine);
-        protected void AddUpdateEngine(IEngine engine) => _updateEngines.Add(engine);
-        protected void AddLateUpdateEngine(IEngine engine) => _lateUpdateEngines.Add(engine);
-        protected void AddFixedUpdateEngine(IEngine engine) => _fixedUpdateEngines.Add(engine);
+        protected void AddStartEngine(IEngine engine)
+        {
+            _startEngines.Add(engine);
+            AddReactions(engine);
+        }
+
+        protected void AddUpdateEngine(IEngine engine)
+        {
+            _updateEngines.Add(engine);
+            AddReactions(engine);
+        }
+
+        protected void AddLateUpdateEngine(IEngine engine)
+        {
+            _lateUpdateEngines.Add(engine);
+            AddReactions(engine);
+        }
+
+        protected void AddFixedUpdateEngine(IEngine engine)
+        {
+            _fixedUpdateEngines.Add(engine);
+            AddReactions(engine);
+        }
 
         private void Awake()
         {
+            Reactor.AddEngineRunner(this);
             InstallEngines();
+        }
+
+        private void OnDestroy()
+        {
+            Reactor.RemoveEngineRunner(this);
         }
 
         private void Start()
@@ -50,8 +78,43 @@ namespace BratyECS
                 {
                     continue;
                 }
-                
+
                 engine.Tick();
+            }
+        }
+
+        private void AddReactions(IEngine engine)
+        {
+            var engineType = engine.GetType();
+            var interfaces = engineType.GetInterfaces();
+
+            foreach (var interfaceType in interfaces)
+            {
+                if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IReact<>))
+                {
+                    var reactionType = interfaceType.GetGenericArguments()[0];
+
+                    if (!_reactiveEngines.ContainsKey(reactionType))
+                    {
+                        _reactiveEngines[reactionType] = new();
+                    }
+                    _reactiveEngines[reactionType].Add(engine);
+                }
+            }
+        }
+
+        internal void React<T>(T reaction) where T : Reaction
+        {
+            var reactionType = typeof(T);
+            
+            if (!_reactiveEngines.TryGetValue(reactionType, out var reactiveEngines))
+            {
+                return;
+            }
+
+            foreach (var engine in reactiveEngines)
+            {
+                ((IReact<T>)engine).OnReact(reaction);
             }
         }
     }
