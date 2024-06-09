@@ -4,16 +4,16 @@ using UnityEngine;
 namespace BratyECS
 {
     [Serializable]
-    public class RefType<T>
+    public class RefType<T> where T : class
     {
-        [SerializeField] private T _value;
-        
-        public T Value
+        [SerializeField] private T _ref;
+
+        public T Ref
         {
-            get => _value;
-            set => _value = value;
+            get => _ref;
+            set => _ref = value;
         }
-        
-        public T ReadValue => _value;
+
+        public T ReadRef => _ref;
     }
 }
