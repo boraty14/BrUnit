@@ -11,32 +11,32 @@ namespace BratyECS
         private readonly List<IEngine> _lateUpdateEngines = new();
         private readonly List<IEngine> _fixedUpdateEngines = new();
 
-        private Dictionary<Type, List<object>> _reactiveEngines = new();
+        private Dictionary<Type, List<object>> _reactives = new();
 
         protected abstract void InstallEngines();
 
         protected void AddStartEngine(IEngine engine)
         {
             _startEngines.Add(engine);
-            AddReactions(engine);
+            AddReact(engine);
         }
 
         protected void AddUpdateEngine(IEngine engine)
         {
             _updateEngines.Add(engine);
-            AddReactions(engine);
+            AddReact(engine);
         }
 
         protected void AddLateUpdateEngine(IEngine engine)
         {
             _lateUpdateEngines.Add(engine);
-            AddReactions(engine);
+            AddReact(engine);
         }
 
         protected void AddFixedUpdateEngine(IEngine engine)
         {
             _fixedUpdateEngines.Add(engine);
-            AddReactions(engine);
+            AddReact(engine);
         }
 
         private void Awake()
@@ -83,10 +83,10 @@ namespace BratyECS
             }
         }
 
-        private void AddReactions(IEngine engine)
+        protected void AddReact<T>(T react)
         {
-            var engineType = engine.GetType();
-            var interfaces = engineType.GetInterfaces();
+            var reactType = react.GetType();
+            var interfaces = reactType.GetInterfaces();
 
             foreach (var interfaceType in interfaces)
             {
@@ -94,11 +94,11 @@ namespace BratyECS
                 {
                     var reactionType = interfaceType.GetGenericArguments()[0];
 
-                    if (!_reactiveEngines.ContainsKey(reactionType))
+                    if (!_reactives.ContainsKey(reactionType))
                     {
-                        _reactiveEngines[reactionType] = new();
+                        _reactives[reactionType] = new();
                     }
-                    _reactiveEngines[reactionType].Add(engine);
+                    _reactives[reactionType].Add(react);
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace BratyECS
         {
             var reactionType = typeof(T);
             
-            if (!_reactiveEngines.TryGetValue(reactionType, out var reactiveEngines))
+            if (!_reactives.TryGetValue(reactionType, out var reactiveEngines))
             {
                 return;
             }
