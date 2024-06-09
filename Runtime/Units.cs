@@ -3,9 +3,9 @@
 namespace BratyECS
 {
     public static class Units<T> where T : Unit
-        {
+    {
         internal static UnitManager<T> Manager;
-        
+
         public static T CreateUnit() => Manager.CreateUnit();
         public static void DeleteUnit(T unit) => Manager.DeleteUnit(unit);
         public static void DeleteIndices(List<int> indices) => Manager.DeleteIndices(indices);
