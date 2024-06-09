@@ -2,7 +2,7 @@
 
 namespace BratyECS
 {
-    public abstract class UnitSingletonManager<T> : UnitManager<T> where T : Unit
+    public abstract class MonoUnitSingletonManager<T> : MonoUnitManager<T> where T : MonoUnit
     {
         [SerializeField] private T _prefab;
         [SerializeField] private bool _isLazy; 
@@ -15,21 +15,21 @@ namespace BratyECS
                 return;
             }
 
-            CreateUnit();
+            CreateMonoUnit();
         }
 
-        protected override T CreateUnitFromFactory()
+        protected override T CreateMonoUnitFromFactory()
         {
             if (_instance != null)
             {
-                DeleteUnit(_instance);
+                DeleteMonoUnit(_instance);
             }
             
             _instance = Instantiate(_prefab, transform);
             return _instance;
         }
 
-        protected override void DeleteUnitFromFactory(T unit)
+        protected override void DeleteMonoUnitFromFactory(T monoUnit)
         {
             if (_instance == null)
             {

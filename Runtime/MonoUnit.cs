@@ -2,7 +2,7 @@
 
 namespace BratyECS
 {
-    public abstract class Unit : MonoBehaviour
+    public abstract class MonoUnit : MonoBehaviour
     {
         
     }
