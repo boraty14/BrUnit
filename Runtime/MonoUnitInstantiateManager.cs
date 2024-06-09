@@ -6,12 +6,12 @@ namespace BratyECS
     {
         [SerializeField] private T _prefab;
         
-        protected override T CreateMonoUnitFromFactory()
+        protected override T CreateMonoUnitFromManager()
         {
             return Instantiate(_prefab, transform);
         }
 
-        protected override void DeleteMonoUnitFromFactory(T monoUnit)
+        protected override void DeleteMonoUnitFromManager(T monoUnit)
         {
             Destroy(monoUnit);
         }

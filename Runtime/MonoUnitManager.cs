@@ -11,7 +11,7 @@ namespace BratyECS
         {
             if (MonoUnits<T>.Manager != null)
             {
-                Debug.LogError($"{typeof(T)} more than one factory");
+                Debug.LogError($"{typeof(T)} more than one manager");
             }
             MonoUnits<T>.Manager = this;
         }
@@ -35,7 +35,7 @@ namespace BratyECS
         
         internal T CreateMonoUnit()
         {
-            T monoUnit = CreateMonoUnitFromFactory();
+            T monoUnit = CreateMonoUnitFromManager();
             _monoUnits.Add(monoUnit);
             return monoUnit;
         }
@@ -43,7 +43,7 @@ namespace BratyECS
         internal void DeleteMonoUnit(T monoUnit)
         {
             _monoUnits.Remove(monoUnit);
-            DeleteMonoUnitFromFactory(monoUnit);
+            DeleteMonoUnitFromManager(monoUnit);
         }
 
         internal void DeleteIndices(List<int> indices)
@@ -60,8 +60,8 @@ namespace BratyECS
             }
         }
         
-        protected abstract T CreateMonoUnitFromFactory();
-        protected abstract void DeleteMonoUnitFromFactory(T monoUnit);
+        protected abstract T CreateMonoUnitFromManager();
+        protected abstract void DeleteMonoUnitFromManager(T monoUnit);
         
         internal int GetCount() => _monoUnits.Count;
         internal bool IsEmpty() => GetCount() == 0;

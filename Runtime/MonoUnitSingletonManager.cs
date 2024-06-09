@@ -18,7 +18,7 @@ namespace BratyECS
             CreateMonoUnit();
         }
 
-        protected override T CreateMonoUnitFromFactory()
+        protected override T CreateMonoUnitFromManager()
         {
             if (_instance != null)
             {
@@ -29,7 +29,7 @@ namespace BratyECS
             return _instance;
         }
 
-        protected override void DeleteMonoUnitFromFactory(T monoUnit)
+        protected override void DeleteMonoUnitFromManager(T monoUnit)
         {
             if (_instance == null)
             {

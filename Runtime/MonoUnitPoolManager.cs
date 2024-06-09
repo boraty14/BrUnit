@@ -17,12 +17,12 @@ namespace BratyECS
             set => _pool = value;
         }
 
-        protected override T CreateMonoUnitFromFactory()
+        protected override T CreateMonoUnitFromManager()
         {
             return Pool.Get();
         }
 
-        protected override void DeleteMonoUnitFromFactory(T monoUnit)
+        protected override void DeleteMonoUnitFromManager(T monoUnit)
         {
             Pool.Release(monoUnit);
         }
