@@ -1,21 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BratyECS
 {
-    public abstract class MonoUnit<T> : IDisposable where T : MonoBehaviour
+    public class MonoUnit<T> where T : MonoBehaviour
     {
-        protected readonly T MonoBehaviour;
-        private readonly IMonoUnitFactory<T> _monoUnitFactory;
+        internal readonly T MonoBehaviour;
 
-        protected MonoUnit(IMonoUnitFactory<T> monoUnitFactory)
+        protected MonoUnit(T monoBehaviour)
         {
-            MonoBehaviour = monoUnitFactory.CreateMonoUnit();
-        }
-
-        public void Dispose()
-        {
-            _monoUnitFactory.DeleteMonoUnit(MonoBehaviour);
+            MonoBehaviour = monoBehaviour;
         }
     }
 }

@@ -5,23 +5,15 @@ namespace BratyECS
 {
     public abstract class UnitManager<T>
     {
-        private readonly List<T> _units = new();
+        protected readonly List<T> Units = new();
 
-        public void AddUnitSingleton(T monoUnit)
-        {
-            if (_units.Count != 0)
-            {
-                Debug.LogError($"{typeof(T)} is not singleton, unit count {_units.Count}");
-                _units.Clear();
-            }
-            AddUnit(monoUnit);
-        }
-        public void AddUnit(T monoUnit) => _units.Add(monoUnit);
-        public virtual void RemoveUnit(T monoUnit) => _units.Remove(monoUnit);
+        public abstract T AddUnit();
+
+        public abstract void RemoveUnit(T unit);
 
         public void RemoveIndex(int index)
         {
-            var unit = _units[index];
+            var unit = Units[index];
             RemoveUnit(unit);
         }
 
@@ -35,16 +27,16 @@ namespace BratyECS
                 {
                     continue;
                 }
-                RemoveUnit(_units[index]);
+                RemoveUnit(Units[index]);
             }
         }
         
-        public void ClearUnits() => _units.Clear();
-        public IReadOnlyCollection<T> GetUnits() => _units;
+        public void ClearUnits() => Units.Clear();
+        public IReadOnlyCollection<T> GetUnits() => Units;
         public IEnumerable<(int index, T unit)> EnumerateUnits()
         {
             int index = 0;
-            foreach (var unit in _units)
+            foreach (var unit in Units)
             {
                 yield return (index, unit);
                 index++;
@@ -53,15 +45,15 @@ namespace BratyECS
 
         public T GetSingleton()
         {
-            int unit = _units.Count; 
+            int unit = Units.Count; 
             if (unit != 1)
             {
                 Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
             }
 
-            return _units[0];
+            return Units[0];
         }
-        public int GetCount() => _units.Count;
+        public int GetCount() => Units.Count;
         public bool IsEmpty() => GetCount() == 0;
     }
 }
