@@ -12,7 +12,6 @@ namespace BratyECS
         protected void AddUpdateEngine(IEngine engine) => _engineRunner.AddUpdateEngine(engine);
         protected void AddLateUpdateEngine(IEngine engine) => _engineRunner.AddLateUpdateEngine(engine);
         protected void AddFixedUpdateEngine(IEngine engine) => _engineRunner.AddFixedUpdateEngine(engine);
-        protected void AddReact<T>(T reaction) where T: class => _engineRunner.AddReact(reaction);
         
         private void Awake()
         {
@@ -38,11 +37,6 @@ namespace BratyECS
         private void FixedUpdate()
         {
             _engineRunner.FixedUpdate();
-        }
-        
-        private void OnDestroy()
-        {
-            _engineRunner.Dispose();
         }
     }
 }

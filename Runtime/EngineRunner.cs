@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BratyECS
 {
-    public class EngineRunner : IDisposable
+    public class EngineRunner
     {
         private readonly List<IEngine> _startEngines = new();
         private readonly List<IEngine> _updateEngines = new();
@@ -12,33 +12,24 @@ namespace BratyECS
 
         private Dictionary<Type, List<object>> _reactives = new();
 
-        public EngineRunner()
-        {
-            Reactor.AddEngineRunner(this);
-        }
-
         public void AddStartEngine(IEngine engine)
         {
             _startEngines.Add(engine);
-            AddReact(engine);
         }
 
         public void AddUpdateEngine(IEngine engine)
         {
             _updateEngines.Add(engine);
-            AddReact(engine);
         }
 
         public void AddLateUpdateEngine(IEngine engine)
         {
             _lateUpdateEngines.Add(engine);
-            AddReact(engine);
         }
 
         public void AddFixedUpdateEngine(IEngine engine)
         {
             _fixedUpdateEngines.Add(engine);
-            AddReact(engine);
         }
 
         public void Start()
@@ -72,46 +63,6 @@ namespace BratyECS
 
                 engine.Tick();
             }
-        }
-
-        public void AddReact<T>(T react) where T : class
-        {
-            var reactType = react.GetType();
-            var interfaces = reactType.GetInterfaces();
-
-            foreach (var interfaceType in interfaces)
-            {
-                if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IReact<>))
-                {
-                    var reactionType = interfaceType.GetGenericArguments()[0];
-
-                    if (!_reactives.ContainsKey(reactionType))
-                    {
-                        _reactives[reactionType] = new();
-                    }
-                    _reactives[reactionType].Add(react);
-                }
-            }
-        }
-
-        internal void React<T>(T reaction) where T : struct, IReaction
-        {
-            var reactionType = typeof(T);
-            
-            if (!_reactives.TryGetValue(reactionType, out var reactiveEngines))
-            {
-                return;
-            }
-
-            foreach (var engine in reactiveEngines)
-            {
-                ((IReact<T>)engine).OnReact(reaction);
-            }
-        }
-
-        public void Dispose()
-        {
-            Reactor.RemoveEngineRunner(this);
         }
     }
 }

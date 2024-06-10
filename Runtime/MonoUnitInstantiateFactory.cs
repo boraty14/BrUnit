@@ -2,16 +2,16 @@
 
 namespace BratyECS
 {
-    public abstract class MonoUnitInstantiateManager<T> : MonoUnitManager<T> where T : MonoUnit
+    public abstract class MonoUnitInstantiateFactory<T> : MonoUnitFactory<T> where T : MonoBehaviour
     {
         [SerializeField] private T _prefab;
         
-        protected override T CreateMonoUnitFromManager()
+        protected override T CreateMonoUnitFromFactory()
         {
             return Instantiate(_prefab, transform);
         }
 
-        protected override void DeleteMonoUnitFromManager(T monoUnit)
+        protected override void DeleteMonoUnitFromFactory(T monoUnit)
         {
             Destroy(monoUnit.gameObject);
         }
