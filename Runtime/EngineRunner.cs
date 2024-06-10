@@ -74,7 +74,7 @@ namespace BratyECS
             }
         }
 
-        public void AddReact<T>(T react)
+        public void AddReact<T>(T react) where T : class
         {
             var reactType = react.GetType();
             var interfaces = reactType.GetInterfaces();

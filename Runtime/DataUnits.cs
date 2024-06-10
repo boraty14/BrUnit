@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BratyECS
 {
-    public static class DataUnits<T> where T : DataUnit
+    public static class DataUnits<T> where T : struct, IDataUnit
     {
         private static readonly List<T> _dataUnits = new List<T>();
 
@@ -35,7 +35,7 @@ namespace BratyECS
         
         public static void ClearDataUnits() => _dataUnits.Clear();
         public static IReadOnlyCollection<T> GetDataUnits() => _dataUnits;
-        public static IEnumerable<(int index, T dataUnit)> EnumerateMonoUnits()
+        public static IEnumerable<(int index, T dataUnit)> EnumerateDataUnits()
         {
             int index = 0;
             foreach (var dataUnit in _dataUnits)
