@@ -65,7 +65,7 @@ namespace BratyECS
         
         internal int GetCount() => _monoUnits.Count;
         internal bool IsEmpty() => GetCount() == 0;
-        
+       
         internal T GetSingleton()
         {
             int unitCount = _monoUnits.Count; 
@@ -75,6 +75,14 @@ namespace BratyECS
             }
 
             return _monoUnits[0];
+        }
+
+        internal void ClearMonoUnits()
+        {
+            foreach (var monoUnit in _monoUnits)
+            {
+                DeleteMonoUnit(monoUnit);
+            }
         }
     }
 }
