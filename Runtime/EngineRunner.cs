@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace BratyECS
 {
-    public abstract class EngineRunner : MonoBehaviour
+    public class EngineRunner : IDisposable
     {
         private readonly List<IEngine> _startEngines = new();
         private readonly List<IEngine> _updateEngines = new();
@@ -13,59 +12,51 @@ namespace BratyECS
 
         private Dictionary<Type, List<object>> _reactives = new();
 
-        protected abstract void InstallEngines();
+        public EngineRunner()
+        {
+            Reactor.AddEngineRunner(this);
+        }
 
-        protected void AddStartEngine(IEngine engine)
+        public void AddStartEngine(IEngine engine)
         {
             _startEngines.Add(engine);
             AddReact(engine);
         }
 
-        protected void AddUpdateEngine(IEngine engine)
+        public void AddUpdateEngine(IEngine engine)
         {
             _updateEngines.Add(engine);
             AddReact(engine);
         }
 
-        protected void AddLateUpdateEngine(IEngine engine)
+        public void AddLateUpdateEngine(IEngine engine)
         {
             _lateUpdateEngines.Add(engine);
             AddReact(engine);
         }
 
-        protected void AddFixedUpdateEngine(IEngine engine)
+        public void AddFixedUpdateEngine(IEngine engine)
         {
             _fixedUpdateEngines.Add(engine);
             AddReact(engine);
         }
 
-        private void Awake()
-        {
-            Reactor.AddEngineRunner(this);
-            InstallEngines();
-        }
-
-        private void OnDestroy()
-        {
-            Reactor.RemoveEngineRunner(this);
-        }
-
-        private void Start()
+        public void Start()
         {
             TickEngines(_startEngines);
         }
 
-        private void Update()
+        public void Update()
         {
             TickEngines(_updateEngines);
         }
 
-        private void LateUpdate()
+        public void LateUpdate()
         {
             TickEngines(_lateUpdateEngines);
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             TickEngines(_fixedUpdateEngines);
         }
@@ -83,7 +74,7 @@ namespace BratyECS
             }
         }
 
-        protected void AddReact<T>(T react)
+        public void AddReact<T>(T react)
         {
             var reactType = react.GetType();
             var interfaces = reactType.GetInterfaces();
@@ -116,6 +107,11 @@ namespace BratyECS
             {
                 ((IReact<T>)engine).OnReact(reaction);
             }
+        }
+
+        public void Dispose()
+        {
+            Reactor.RemoveEngineRunner(this);
         }
     }
 }

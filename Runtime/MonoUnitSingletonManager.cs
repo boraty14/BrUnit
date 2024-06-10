@@ -35,7 +35,7 @@ namespace BratyECS
             {
                 return;
             }
-            Destroy(_instance);
+            Destroy(_instance.gameObject);
         }
     }
 }

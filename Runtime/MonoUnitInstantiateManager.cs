@@ -13,7 +13,7 @@ namespace BratyECS
 
         protected override void DeleteMonoUnitFromManager(T monoUnit)
         {
-            Destroy(monoUnit);
+            Destroy(monoUnit.gameObject);
         }
     }
 }
