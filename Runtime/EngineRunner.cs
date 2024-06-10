@@ -103,7 +103,7 @@ namespace BratyECS
             }
         }
 
-        internal void React<T>(T reaction) where T : Reaction
+        internal void React<T>(T reaction) where T : struct, IReaction
         {
             var reactionType = typeof(T);
             

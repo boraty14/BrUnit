@@ -1,6 +1,6 @@
 ﻿namespace BratyECS
 {
-    public abstract record Reaction
+    public interface IReaction
     {
         
     }

@@ -11,9 +11,9 @@ namespace BratyECS
         internal static void RemoveEngineRunner(EngineRunner engineRunner) => _engineRunners.Remove(engineRunner);
     }
     
-    public static class Reactor<T> where T : Reaction
+    public static class Reactor<T> where T : struct, IReaction
     {
-        public static void Emit(T reaction = null)
+        public static void Emit(T reaction = default)
         {
             foreach (var engineRunner in Reactor.EngineRunners)
             {
