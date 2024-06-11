@@ -5,18 +5,18 @@ namespace BratyECS
 {
     public abstract class MonoFactory<T> : MonoBehaviour, IMonoFactory<T> where T : MonoBehaviour
     {
-        private List<T> _monoUnits = new();
+        private List<T> _monos = new();
         
         public T CreateMono()
         {
             T mono = CreateMonoFromFactory();
-            _monoUnits.Add(mono);
+            _monos.Add(mono);
             return mono;
         }
 
         public void DeleteMono(T mono)
         {
-            _monoUnits.Remove(mono);
+            _monos.Remove(mono);
             DeleteMonoFromFactory(mono);
         }
         

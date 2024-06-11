@@ -4,11 +4,11 @@ namespace BratyECS
 {
     public abstract class MonoInstantiateFactory<T> : MonoFactory<T> where T : MonoBehaviour
     {
-        [SerializeField] private T _prefab;
+        [SerializeField] protected T Prefab;
         
         protected override T CreateMonoFromFactory()
         {
-            return Instantiate(_prefab, transform);
+            return Instantiate(Prefab, transform);
         }
 
         protected override void DeleteMonoFromFactory(T mono)
