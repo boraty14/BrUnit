@@ -46,9 +46,9 @@ namespace BratyECS
 
         #region Overrides
         protected virtual T CreateSetup() => Instantiate(_prefab, transform);
-        protected virtual void GetSetup(T monoUnit) => monoUnit.gameObject.SetActive(true);
-        protected virtual void ReleaseSetup(T monoUnit) => monoUnit.gameObject.SetActive(false);
-        protected virtual void DestroySetup(T monoUnit) => Destroy(monoUnit.gameObject);
+        protected virtual void GetSetup(T mono) => mono.gameObject.SetActive(true);
+        protected virtual void ReleaseSetup(T mono) => mono.gameObject.SetActive(false);
+        protected virtual void DestroySetup(T mono) => Destroy(mono.gameObject);
         #endregion
     }
 }
