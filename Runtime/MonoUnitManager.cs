@@ -18,13 +18,18 @@ namespace BratyECS
             TMonoBehaviour monoBehaviour = _monoUnitFactory.CreateMonoUnit();
             object[] args = {monoBehaviour};
             TMonoUnit monoUnit = Activator.CreateInstance(typeof(TMonoUnit), args) as TMonoUnit;
+            Units.Add(monoUnit);
             return monoUnit;
         }
 
         public override void RemoveUnit(TMonoUnit unit)
         {
-            _monoUnitFactory.DeleteMonoUnit(unit.MonoBehaviour);
             Units.Remove(unit);
+            if (unit.MonoBehaviour == null)
+            {
+                return;
+            }
+            _monoUnitFactory.DeleteMonoUnit(unit.MonoBehaviour);
         }
     }
 }

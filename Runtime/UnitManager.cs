@@ -31,7 +31,14 @@ namespace BratyECS
             }
         }
         
-        public void ClearUnits() => Units.Clear();
+        public void ClearUnits()
+        {
+            foreach (var unit in Units)
+            {
+                RemoveUnit(unit);
+            }
+        }
+
         public IReadOnlyCollection<T> GetUnits() => Units;
         public IEnumerable<(int index, T unit)> EnumerateUnits()
         {

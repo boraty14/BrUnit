@@ -1,68 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
 namespace BratyECS
 {
-    public class EngineRunner
+    public abstract class EngineRunner : MonoBehaviour
     {
-        private readonly List<IEngine> _startEngines = new();
-        private readonly List<IEngine> _updateEngines = new();
-        private readonly List<IEngine> _lateUpdateEngines = new();
-        private readonly List<IEngine> _fixedUpdateEngines = new();
+        protected EngineContainer EngineContainer;
 
-        private Dictionary<Type, List<object>> _reactives = new();
-
-        public void AddStartEngine(IEngine engine)
+        protected abstract void InstallEngines();
+        
+        private void Awake()
         {
-            _startEngines.Add(engine);
+            EngineContainer = new EngineContainer();
+            InstallEngines();
         }
-
-        public void AddUpdateEngine(IEngine engine)
+        
+        private void Start()
         {
-            _updateEngines.Add(engine);
+            EngineContainer.Start();
         }
-
-        public void AddLateUpdateEngine(IEngine engine)
+        
+        private void Update()
         {
-            _lateUpdateEngines.Add(engine);
+            EngineContainer.Update();
         }
-
-        public void AddFixedUpdateEngine(IEngine engine)
+        
+        private void LateUpdate()
         {
-            _fixedUpdateEngines.Add(engine);
+            EngineContainer.LateUpdate();
         }
-
-        public void Start()
+        
+        private void FixedUpdate()
         {
-            TickEngines(_startEngines);
-        }
-
-        public void Update()
-        {
-            TickEngines(_updateEngines);
-        }
-
-        public void LateUpdate()
-        {
-            TickEngines(_lateUpdateEngines);
-        }
-
-        public void FixedUpdate()
-        {
-            TickEngines(_fixedUpdateEngines);
-        }
-
-        private void TickEngines(IReadOnlyCollection<IEngine> engines)
-        {
-            foreach (var engine in engines)
-            {
-                if (!engine.IsTickable())
-                {
-                    continue;
-                }
-
-                engine.Tick();
-            }
+            EngineContainer.FixedUpdate();
         }
     }
 }

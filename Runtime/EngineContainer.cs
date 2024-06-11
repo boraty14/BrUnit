@@ -1,42 +1,65 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace BratyECS
 {
-    public abstract class EngineContainer : MonoBehaviour
+    public class EngineContainer
     {
-        private EngineRunner _engineRunner;
+        private readonly List<IEngine> _startEngines = new();
+        private readonly List<IEngine> _updateEngines = new();
+        private readonly List<IEngine> _lateUpdateEngines = new();
+        private readonly List<IEngine> _fixedUpdateEngines = new();
 
-        protected abstract void InstallEngines();
-        
-        protected void AddStartEngine(IEngine engine) => _engineRunner.AddStartEngine(engine);
-        protected void AddUpdateEngine(IEngine engine) => _engineRunner.AddUpdateEngine(engine);
-        protected void AddLateUpdateEngine(IEngine engine) => _engineRunner.AddLateUpdateEngine(engine);
-        protected void AddFixedUpdateEngine(IEngine engine) => _engineRunner.AddFixedUpdateEngine(engine);
-        
-        private void Awake()
+        public void AddStartEngine(IEngine engine)
         {
-            _engineRunner = new EngineRunner();
-            InstallEngines();
+            _startEngines.Add(engine);
         }
-        
-        private void Start()
+
+        public void AddUpdateEngine(IEngine engine)
         {
-            _engineRunner.Start();
+            _updateEngines.Add(engine);
         }
-        
-        private void Update()
+
+        public void AddLateUpdateEngine(IEngine engine)
         {
-            _engineRunner.Update();
+            _lateUpdateEngines.Add(engine);
         }
-        
-        private void LateUpdate()
+
+        public void AddFixedUpdateEngine(IEngine engine)
         {
-            _engineRunner.LateUpdate();
+            _fixedUpdateEngines.Add(engine);
         }
-        
-        private void FixedUpdate()
+
+        public void Start()
         {
-            _engineRunner.FixedUpdate();
+            TickEngines(_startEngines);
+        }
+
+        public void Update()
+        {
+            TickEngines(_updateEngines);
+        }
+
+        public void LateUpdate()
+        {
+            TickEngines(_lateUpdateEngines);
+        }
+
+        public void FixedUpdate()
+        {
+            TickEngines(_fixedUpdateEngines);
+        }
+
+        private void TickEngines(IReadOnlyCollection<IEngine> engines)
+        {
+            foreach (var engine in engines)
+            {
+                if (!engine.IsTickable())
+                {
+                    continue;
+                }
+
+                engine.Tick();
+            }
         }
     }
 }
