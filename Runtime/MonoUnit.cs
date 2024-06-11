@@ -2,13 +2,8 @@
 
 namespace BratyECS
 {
-    public class MonoUnit<T> where T : MonoBehaviour
+    public abstract class MonoUnit<T> where T : MonoBehaviour
     {
-        internal readonly T Mono;
-
-        protected MonoUnit(T mono)
-        {
-            Mono = mono;
-        }
+        protected internal T Mono { get; internal set; }
     }
 }

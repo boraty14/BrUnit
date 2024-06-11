@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BratyECS
 {
     public class MonoUnitManager<TMonoUnit, TMono> : UnitManager<TMonoUnit>
-        where TMonoUnit : MonoUnit<TMono> where TMono : MonoBehaviour
+        where TMonoUnit : MonoUnit<TMono>, new() where TMono : MonoBehaviour
     {
         private readonly IMonoFactory<TMono> _monoFactory;
         
@@ -16,8 +15,10 @@ namespace BratyECS
         public override TMonoUnit AddUnit()
         {
             TMono mono = _monoFactory.CreateMono();
-            object[] args = {mono};
-            TMonoUnit monoUnit = Activator.CreateInstance(typeof(TMonoUnit), args) as TMonoUnit;
+            TMonoUnit monoUnit = new TMonoUnit
+            {
+                Mono = mono
+            };
             Units.Add(monoUnit);
             return monoUnit;
         }
