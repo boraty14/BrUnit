@@ -1,8 +1,8 @@
 {
-  "name": "com.braty.bratyecs",
+  "name": "com.braty.brunit",
   "version": "1.0.0",
-  "displayName": "BratyECS",
-  "description": "Simple ECS-like system for MonoBehaviours.",
+  "displayName": "BrUnit",
+  "description": "Simple Management System for class/monobehaviours",
   "unity": "2022.1",
   "author": {
     "name": "Bora Ataysen",
