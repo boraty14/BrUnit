@@ -1,7 +1,6 @@
 ﻿namespace BratyECS
 {
-    public interface IDataUnit
+    public interface IDataUnit : IUnit
     {
-        
     }
 }

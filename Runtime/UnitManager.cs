@@ -3,17 +3,54 @@ using UnityEngine;
 
 namespace BratyECS
 {
-    public abstract class UnitManager<T>
+    public abstract class UnitManager<T> where T : IUnit, new()
     {
-        protected readonly List<T> Units = new();
+        private readonly List<T> _units = new();
+        private readonly Stack<T> _unitPool = new();
 
-        public abstract T AddUnit();
+        public virtual T AddUnit()
+        {
+            T unit = GetUnitFromPool();
+            unit.Reset();
+            _units.Add(unit);
+            return unit;
+        }
 
-        public abstract void RemoveUnit(T unit);
+        public T AddSingleton()
+        {
+            int unit = _units.Count;
+            if (unit != 0)
+            {
+                Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
+            }
+
+            return AddUnit();
+        }
+
+        public virtual void RemoveUnit(T unit)
+        {
+            _units.Remove(unit);
+            ReturnUnitToPool(unit);
+        }
+
+        private T GetUnitFromPool()
+        {
+            if (_unitPool.Count == 0)
+            {
+                return new T();
+            }
+
+            return _unitPool.Pop();
+        }
+
+        private void ReturnUnitToPool(T unit)
+        {
+            _unitPool.Push(unit);
+        }
 
         public void RemoveIndex(int index)
         {
-            var unit = Units[index];
+            var unit = _units[index];
             RemoveUnit(unit);
         }
 
@@ -27,23 +64,25 @@ namespace BratyECS
                 {
                     continue;
                 }
-                RemoveUnit(Units[index]);
+
+                RemoveUnit(_units[index]);
             }
         }
-        
+
         public void ClearUnits()
         {
-            foreach (var unit in Units)
+            foreach (var unit in _units)
             {
                 RemoveUnit(unit);
             }
         }
 
-        public IReadOnlyCollection<T> GetUnits() => Units;
+        public IReadOnlyCollection<T> GetUnits() => _units;
+
         public IEnumerable<(int index, T unit)> EnumerateUnits()
         {
             int index = 0;
-            foreach (var unit in Units)
+            foreach (var unit in _units)
             {
                 yield return (index, unit);
                 index++;
@@ -52,15 +91,16 @@ namespace BratyECS
 
         public T GetSingleton()
         {
-            int unit = Units.Count; 
+            int unit = _units.Count;
             if (unit != 1)
             {
                 Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
             }
 
-            return Units[0];
+            return _units[0];
         }
-        public int GetCount() => Units.Count;
+
+        public int GetCount() => _units.Count;
         public bool IsEmpty() => GetCount() == 0;
     }
 }
