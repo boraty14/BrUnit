@@ -4,11 +4,11 @@ namespace BratyECS
 {
     public class MonoUnit<T> where T : MonoBehaviour
     {
-        internal readonly T MonoBehaviour;
+        internal readonly T Mono;
 
-        protected MonoUnit(T monoBehaviour)
+        protected MonoUnit(T mono)
         {
-            MonoBehaviour = monoBehaviour;
+            Mono = mono;
         }
     }
 }

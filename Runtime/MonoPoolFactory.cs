@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 namespace BratyECS
 {
-    public abstract class MonoUnitPoolFactory<T> : MonoUnitFactory<T> where T : MonoBehaviour
+    public abstract class MonoPoolFactory<T> : MonoFactory<T> where T : MonoBehaviour
     {
         [SerializeField] private T _prefab;
         private ObjectPool<T> _pool;
@@ -17,14 +17,14 @@ namespace BratyECS
             set => _pool = value;
         }
 
-        protected override T CreateMonoUnitFromFactory()
+        protected override T CreateMonoFromFactory()
         {
             return Pool.Get();
         }
 
-        protected override void DeleteMonoUnitFromFactory(T monoUnit)
+        protected override void DeleteMonoFromFactory(T mono)
         {
-            Pool.Release(monoUnit);
+            Pool.Release(mono);
         }
 
         protected virtual void Awake()

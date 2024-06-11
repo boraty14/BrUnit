@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace BratyECS
 {
-    public class MonoUnitManager<TMonoUnit, TMonoBehaviour> : UnitManager<TMonoUnit>
-        where TMonoUnit : MonoUnit<TMonoBehaviour> where TMonoBehaviour : MonoBehaviour
+    public class MonoUnitManager<TMonoUnit, TMono> : UnitManager<TMonoUnit>
+        where TMonoUnit : MonoUnit<TMono> where TMono : MonoBehaviour
     {
-        private readonly IMonoUnitFactory<TMonoBehaviour> _monoUnitFactory;
+        private readonly IMonoFactory<TMono> _monoFactory;
         
-        public MonoUnitManager(IMonoUnitFactory<TMonoBehaviour> monoUnitFactory)
+        public MonoUnitManager(IMonoFactory<TMono> monoFactory)
         {
-            _monoUnitFactory = monoUnitFactory;
+            _monoFactory = monoFactory;
         }
 
         public override TMonoUnit AddUnit()
         {
-            TMonoBehaviour monoBehaviour = _monoUnitFactory.CreateMonoUnit();
-            object[] args = {monoBehaviour};
+            TMono mono = _monoFactory.CreateMono();
+            object[] args = {mono};
             TMonoUnit monoUnit = Activator.CreateInstance(typeof(TMonoUnit), args) as TMonoUnit;
             Units.Add(monoUnit);
             return monoUnit;
@@ -25,11 +25,11 @@ namespace BratyECS
         public override void RemoveUnit(TMonoUnit unit)
         {
             Units.Remove(unit);
-            if (unit.MonoBehaviour == null)
+            if (unit.Mono == null)
             {
                 return;
             }
-            _monoUnitFactory.DeleteMonoUnit(unit.MonoBehaviour);
+            _monoFactory.DeleteMono(unit.Mono);
         }
     }
 }
