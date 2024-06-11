@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BratyECS
+namespace BrUnit
 {
     public class MonoMockFactory<T> : IMonoFactory<T> where T : MonoBehaviour
     {

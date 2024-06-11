@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BratyECS
+namespace BrUnit
 {
     public abstract class UnitManager<T> where T : IUnit, new()
     {

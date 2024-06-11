@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace BratyECS
+namespace BrUnit
 {
     public abstract class MonoPoolFactory<T> : MonoFactory<T> where T : MonoBehaviour
     {

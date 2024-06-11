@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BratyECS
+namespace BrUnit
 {
     public abstract class MonoUnit<T> : IUnit where T : MonoBehaviour
     {

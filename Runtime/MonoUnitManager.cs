@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BratyECS
+namespace BrUnit
 {
     public class MonoUnitManager<TMonoUnit, TMono> : UnitManager<TMonoUnit>
         where TMonoUnit : MonoUnit<TMono>, new() where TMono : MonoBehaviour

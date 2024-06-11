@@ -1,6 +1,6 @@
 {
-    "name": "BratyECS",
-    "rootNamespace": "BratyECS",
+    "name": "BrUnit",
+    "rootNamespace": "BrUnit",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

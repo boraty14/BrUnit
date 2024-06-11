@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BratyECS
+namespace BrUnit
 {
     public interface IMonoFactory<T> where T : MonoBehaviour
     {
