@@ -16,18 +16,6 @@ namespace Brecs
             return unit;
         }
 
-        public T AddSingleton()
-        {
-            int unit = _units.Count;
-            if (unit != 0)
-            {
-                Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
-                ClearUnits();
-            }
-
-            return AddUnit();
-        }
-
         public virtual void RemoveUnit(T unit)
         {
             _units.Remove(unit);
@@ -49,6 +37,18 @@ namespace Brecs
             _unitPool.Push(unit);
         }
 
+        public T AddSingleton()
+        {
+            int unitCount = GetCount();
+            if (unitCount != 0)
+            {
+                Debug.LogError($"{typeof(T)} is not singleton, unit count {unitCount}");
+                ClearUnits();
+            }
+
+            return AddUnit();
+        }
+        
         public void RemoveIndex(int index)
         {
             var unit = _units[index];
@@ -92,10 +92,10 @@ namespace Brecs
 
         public T GetSingleton()
         {
-            int unit = _units.Count;
-            if (unit != 1)
+            int unitCount = GetCount();
+            if (unitCount != 1)
             {
-                Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
+                Debug.LogError($"{typeof(T)} is not singleton, unit count {unitCount}");
             }
 
             return _units[0];
