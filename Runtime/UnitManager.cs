@@ -7,6 +7,8 @@ namespace Brecs
     {
         private readonly List<T> _units = new();
         private readonly Stack<T> _unitPool = new();
+        
+        protected abstract T CreateUnitPool();
 
         public virtual T AddUnit()
         {
@@ -26,7 +28,7 @@ namespace Brecs
         {
             if (_unitPool.Count == 0)
             {
-                return default;
+                return CreateUnitPool();
             }
 
             return _unitPool.Pop();
@@ -37,12 +39,12 @@ namespace Brecs
             _unitPool.Push(unit);
         }
 
-        public T AddSingleton()
+        public T AddSingle()
         {
             int unitCount = GetCount();
             if (unitCount != 0)
             {
-                Debug.LogError($"{typeof(T)} is not singleton, unit count {unitCount}");
+                Debug.LogError($"{typeof(T)} is not single, unit count {unitCount}");
                 ClearUnits();
             }
 
@@ -90,12 +92,12 @@ namespace Brecs
             }
         }
 
-        public T GetSingleton()
+        public T GetSingle()
         {
             int unitCount = GetCount();
             if (unitCount != 1)
             {
-                Debug.LogError($"{typeof(T)} is not singleton, unit count {unitCount}");
+                Debug.LogError($"{typeof(T)} is not single, unit count {unitCount}");
             }
 
             return _units[0];

@@ -12,6 +12,11 @@ namespace Brecs
             _monoFactory = monoFactory;
         }
 
+        protected override TMonoUnit CreateUnitPool()
+        {
+            return new TMonoUnit();
+        }
+
         public override TMonoUnit AddUnit()
         {
             TMonoUnit monoUnit = base.AddUnit();
