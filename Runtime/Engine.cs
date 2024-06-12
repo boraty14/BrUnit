@@ -1,6 +1,8 @@
-﻿namespace BrUnit
+﻿using System;
+
+namespace BrUnit
 {
-    public abstract class Engine
+    public abstract class Engine : IDisposable
     {
         public void Tick()
         {
@@ -13,5 +15,9 @@
         
         protected abstract void TickEngine();
         protected abstract bool IsTickable();
+        public virtual void Dispose()
+        {
+            
+        }
     }
 }

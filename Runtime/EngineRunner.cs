@@ -33,5 +33,10 @@ namespace BrUnit
         {
             EngineContainer.FixedUpdate();
         }
+
+        private void OnDestroy()
+        {
+            EngineContainer.Dispose();
+        }
     }
 }

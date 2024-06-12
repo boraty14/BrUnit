@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BrUnit
 {
-    public class EngineContainer
+    public class EngineContainer : IDisposable
     {
         private readonly List<Engine> _startEngines = new List<Engine>();
         private readonly List<Engine> _updateEngines = new List<Engine>();
@@ -54,6 +55,22 @@ namespace BrUnit
             foreach (var engine in engines)
             {
                 engine.Tick();
+            }
+        }
+
+        public void Dispose()
+        {
+            DisposeEngines(_startEngines);    
+            DisposeEngines(_updateEngines);
+            DisposeEngines(_lateUpdateEngines);
+            DisposeEngines(_fixedUpdateEngines);
+        }
+        
+        private void DisposeEngines(IReadOnlyCollection<Engine> engines)
+        {
+            foreach (var engine in engines)
+            {
+                engine.Dispose();
             }
         }
     }
