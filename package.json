@@ -1,8 +1,8 @@
 {
-  "name": "com.braty.brunit",
+  "name": "com.braty.brecs",
   "version": "1.0.0",
-  "displayName": "BrUnit",
-  "description": "Simple Management System for class/monobehaviours",
+  "displayName": "Brecs",
+  "description": "Simple ECS like framework for MonoBehaviours, best used with DI, not required though.",
   "unity": "2022.1",
   "author": {
     "name": "Bora Ataysen",
