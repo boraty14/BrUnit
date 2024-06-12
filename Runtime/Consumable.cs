@@ -1,4 +1,4 @@
-﻿namespace BrUnit
+﻿namespace Brecs
 {
     public class Consumable<T>
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public interface IMonoFactory<T> where T : MonoBehaviour
     {

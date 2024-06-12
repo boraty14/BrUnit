@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public abstract class MonoFactory<T> : MonoBehaviour, IMonoFactory<T> where T : MonoBehaviour
     {

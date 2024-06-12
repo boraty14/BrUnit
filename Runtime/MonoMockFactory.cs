@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public class MonoMockFactory<T> : IMonoFactory<T> where T : MonoBehaviour
     {

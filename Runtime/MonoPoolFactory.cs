@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace BrUnit
+namespace Brecs
 {
     public abstract class MonoPoolFactory<T> : MonoFactory<T> where T : MonoBehaviour
     {

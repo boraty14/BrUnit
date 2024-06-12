@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BrUnit
+namespace Brecs
 {
     public class EngineContainer : IDisposable
     {

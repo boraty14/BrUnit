@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public abstract class MonoUnit<T> : IUnit where T : MonoBehaviour
     {

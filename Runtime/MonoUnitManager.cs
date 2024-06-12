@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public class MonoUnitManager<TMonoUnit, TMono> : UnitManager<TMonoUnit>
         where TMonoUnit : MonoUnit<TMono>, new() where TMono : MonoBehaviour

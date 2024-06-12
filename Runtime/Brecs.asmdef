@@ -1,6 +1,6 @@
 {
-    "name": "BrUnit",
-    "rootNamespace": "BrUnit",
+    "name": "Brecs",
+    "rootNamespace": "Brecs",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BrUnit
+namespace Brecs
 {
     public abstract class Engine : IDisposable
     {

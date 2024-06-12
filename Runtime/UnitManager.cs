@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
-    public abstract class UnitManager<T> where T : IUnit, new()
+    public abstract class UnitManager<T> where T : IUnit
     {
         private readonly List<T> _units = new();
         private readonly Stack<T> _unitPool = new();
@@ -37,7 +37,7 @@ namespace BrUnit
         {
             if (_unitPool.Count == 0)
             {
-                return new T();
+                return default;
             }
 
             return _unitPool.Pop();

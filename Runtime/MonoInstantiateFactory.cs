@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BrUnit
+namespace Brecs
 {
     public abstract class MonoInstantiateFactory<T> : MonoFactory<T> where T : MonoBehaviour
     {
