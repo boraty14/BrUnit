@@ -22,6 +22,7 @@ namespace Brecs
             if (unit != 0)
             {
                 Debug.LogError($"{typeof(T)} is not singleton, unit count {unit}");
+                ClearUnits();
             }
 
             return AddUnit();
