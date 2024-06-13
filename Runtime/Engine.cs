@@ -13,8 +13,8 @@ namespace Brecs
             TickEngine();
         }
         
-        protected abstract void TickEngine();
         protected abstract bool IsTickable();
+        protected abstract void TickEngine();
         public virtual void Dispose()
         {
             

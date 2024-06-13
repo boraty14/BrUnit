@@ -15,8 +15,10 @@ namespace Brecs
         public override TMonoUnit AddUnit()
         {
             TMonoUnit monoUnit = base.AddUnit();
-            TMono mono = _monoFactory.CreateMono();
-            monoUnit.Mono = mono;
+            monoUnit.Mono = _monoFactory.CreateMono();
+            monoUnit.Position = Vector3.zero;
+            monoUnit.Rotation = Quaternion.identity;
+            monoUnit.Scale = Vector3.one;
             
             return monoUnit;
         }
