@@ -3,12 +3,10 @@ using UnityEngine;
 
 namespace Brecs
 {
-    public abstract class UnitManager<T> where T : IUnit
+    public abstract class UnitManager<T> where T : IUnit, new()
     {
         private readonly List<T> _units = new();
         private readonly Stack<T> _unitPool = new();
-        
-        protected abstract T CreateUnitPool();
 
         public virtual T AddUnit()
         {
@@ -28,7 +26,7 @@ namespace Brecs
         {
             if (_unitPool.Count == 0)
             {
-                return CreateUnitPool();
+                return new T();
             }
 
             return _unitPool.Pop();
