@@ -27,8 +27,13 @@ namespace Brecs
             set
             {
                 _position = value;
-                MonoAction(mono => mono.transform.position = value);
+                MonoAction(SetPosition);
             }
+        }
+
+        private void SetPosition(T mono)
+        {
+            mono.transform.position = _position;
         }
 
         private Quaternion _rotation;
@@ -38,8 +43,13 @@ namespace Brecs
             set
             {
                 _rotation = value;
-                MonoAction(mono => mono.transform.rotation = value);
+                MonoAction(SetRotation);
             }
+        }
+        
+        private void SetRotation(T mono)
+        {
+            mono.transform.rotation = _rotation;
         }
 
         private Vector3 _scale;
@@ -49,8 +59,13 @@ namespace Brecs
             set
             {
                 _scale = value;
-                MonoAction(mono => mono.transform.localScale = value);
+                MonoAction(SetScale);
             }
+        }
+
+        private void SetScale(T mono)
+        {
+            mono.transform.localScale = _scale;
         }
 
         #endregion
